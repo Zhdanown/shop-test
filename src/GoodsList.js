@@ -1,8 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import produce from "immer";
 
 import GoodsItem from "./GoodsItem";
+import { ListWrapper, Container } from "./components/styled";
 
 function GoodsList({ goods, setGoods }) {
   const addItem = itemId => {
@@ -26,23 +26,19 @@ function GoodsList({ goods, setGoods }) {
   };
 
   return (
-    <ListWrapper>
-      {goods.map(item => (
-        <GoodsItem
-          key={item.id}
-          item={item}
-          addItem={addItem}
-          removeItem={removeItem}
-        />
-      ))}
-    </ListWrapper>
+    <Container>
+      <ListWrapper>
+        {goods.map(item => (
+          <GoodsItem
+            key={item.id}
+            item={item}
+            addItem={addItem}
+            removeItem={removeItem}
+          />
+        ))}
+      </ListWrapper>
+    </Container>
   );
 }
 
 export default GoodsList;
-
-const ListWrapper = styled.ul`
-  list-style: none;
-  padding: 1rem;
-  margin: 0;
-`;

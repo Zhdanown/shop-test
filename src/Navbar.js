@@ -1,6 +1,9 @@
+import { HomeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
+import { Container, Justified } from "./components/styled";
+import { mainColor } from "./config";
 import { useCartCount } from "./hooks/useCartCount";
 
 function Navbar({ goods }) {
@@ -8,10 +11,14 @@ function Navbar({ goods }) {
 
   return (
     <StyledNavbar>
-      <NavbarContent>
-        <LogoTitle>Интернет магазин</LogoTitle>
-        <LinkToggler cartCount={cartCount} />
-      </NavbarContent>
+      <Container>
+        <NavbarContent>
+          <StyledLink to="/">
+            <LogoTitle>Интернет магазин</LogoTitle>
+          </StyledLink>
+          <LinkToggler cartCount={cartCount} />
+        </NavbarContent>
+      </Container>
     </StyledNavbar>
   );
 }
@@ -22,25 +29,23 @@ function LinkToggler({ cartCount }) {
   const isCart = useRouteMatch("/cart");
 
   return isCart ? (
-    <StyledLink to="/">На главную</StyledLink>
+    <StyledLink to="/">
+      <HomeOutlined />
+    </StyledLink>
   ) : (
-    <StyledLink to="/cart">Товаров в корзине: {cartCount}</StyledLink>
+    <StyledLink to="/cart">
+      <ShoppingCartOutlined /> <CartCount>{cartCount}</CartCount>
+    </StyledLink>
   );
 }
 
-const NavbarContent = styled.div`
+const NavbarContent = styled(Justified)`
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /*  */
-  margin: auto;
-  padding: 0 0.5rem;
 `;
 
 const StyledNavbar = styled.nav`
   height: 60px;
-  background: steelblue;
+  background: ${mainColor};
   color: white;
 `;
 
@@ -52,5 +57,33 @@ const LogoTitle = styled.h1`
 const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
-  font-size: 1.2rem;
+  font-size: 2.5rem;
+  padding: 0.25rem;
+  padding: 0 0.25rem;
+  border-radius: 0.25rem;
+  position: relative;
+  opacity: 0.7;
+  transition: opacity .5s;
+
+  &:hover {
+    border-color: white;
+    opacity: 1;
+  }
+`;
+
+const CartCount = styled.span`
+  font-size: 1rem;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  text-align: center;
+  right: 0;
+  color:  ${mainColor};
+  background: white;
+  border-radius: 50%;
+  padding: 0.25rem;
+  position: absolute;
+  top: 2px;
+  right: 0;
+  box-shadow: 0 0 0px 3px  ${mainColor};
 `;

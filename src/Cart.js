@@ -1,16 +1,22 @@
 import { CloseOutlined } from "@ant-design/icons";
 import produce from "immer";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
+import {
+  Button,
+  Centered,
+  Container,
+  Title,
+  Justified,
+  ListWrapper,
+  Price,
+} from "./components/styled";
 
 function Cart({ goods, setGoods }) {
   const selectedGoods = goods.filter(item => item.count);
 
-  return (
-    <div>
-      <SelectedGoods goods={selectedGoods} setGoods={setGoods} />
-    </div>
-  );
+  return <SelectedGoods goods={selectedGoods} setGoods={setGoods} />;
 }
 
 export default Cart;
@@ -48,54 +54,61 @@ function SelectedGoods({ goods, setGoods }) {
     0
   );
 
+  if (!goods.length)
+    return (
+      <Centered direction="column" style={{ padding: "3rem 0" }}>
+        <Title>Корзина пуста</Title>
+        <Link to="/">С списку товаров</Link>
+      </Centered>
+    );
+
   return (
-    <>
+    <Container style={{ marginTop: "1rem" }}>
       {goods.length ? (
         <div style={{ textAlign: "right" }}>
-          <button onClick={clearCart}>
+          <Button danger onClick={clearCart}>
             Удалить всё <CloseOutlined />
-          </button>
+          </Button>
         </div>
       ) : null}
-      <ul>
+      <ListWrapper>
         {goods.map(item => (
-          <CartItem key={item.id}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                flex: 1,
-              }}
-            >
-              <span>{item.name}</span>
-              <span>{item.price} $</span>
-            </div>
+          <CartItem as="li" key={item.id}>
+            <Justified style={{ flex: 1 }}>
+              <Title>{item.name}</Title>
+              <Price>{item.price} $</Price>
+            </Justified>
             <div>
               <NumberInput
                 value={item.count}
                 onChange={count => onCountChange(item.id, count)}
               />
-              <button onClick={() => deleteItemFromCart(item.id)}>
-                Удалить <CloseOutlined />
-              </button>
+              <Button danger onClick={() => deleteItemFromCart(item.id)}>
+                <CloseOutlined />
+              </Button>
             </div>
           </CartItem>
         ))}
-      </ul>
+      </ListWrapper>
 
       {totalSum ? (
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <Total>
           <span>Итого:</span>
           <span>{totalSum.toFixed(2)} $</span>
-        </div>
+        </Total>
       ) : null}
-    </>
+    </Container>
   );
 }
 
-const CartItem = styled.li`
-  display: flex;
-  justify-content: space-between;
+const CartItem = styled(Justified)`
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  transition: background 0.4s;
+
+  &:hover {
+    background: rgba(134, 134, 134, 0.2);
+  }
 `;
 
 function NumberInput({ value, onChange }) {
@@ -106,7 +119,7 @@ function NumberInput({ value, onChange }) {
   }, [count]);
 
   return (
-    <input
+    <StyledInput
       type="number"
       value={count}
       step="1"
@@ -114,3 +127,15 @@ function NumberInput({ value, onChange }) {
     />
   );
 }
+
+const StyledInput = styled.input`
+  width: 4rem;
+  padding: 0.25rem;
+  font-size: 1.2rem;
+  margin-right: 1rem;
+`;
+
+const Total = styled(Justified)`
+  font-size: 1.4rem;
+  font-weight: bold;
+`;
