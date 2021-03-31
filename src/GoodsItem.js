@@ -3,7 +3,13 @@ import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 
 import { apiUrl } from "./api";
 import styled from "styled-components";
-import { Button, Price, Title, Justified } from "./components/styled";
+import {
+  Button,
+  Price,
+  Title,
+  Justified,
+  mobileMediaQuery,
+} from "./components/styled";
 
 function GoodsItem({ item, addItem, removeItem }) {
   return (
@@ -12,7 +18,7 @@ function GoodsItem({ item, addItem, removeItem }) {
         <ItemLogo>
           <img src={apiUrl + item.image} alt="" />
           <Title>{item.name}</Title>
-        </ItemLogo> 
+        </ItemLogo>
         <Justified>
           <Price>{item.price} $</Price>
           <div>
@@ -40,16 +46,22 @@ const Item = styled.li`
 
   img {
     width: 50px;
+    margin-right: 1rem;
   }
+
+  ${mobileMediaQuery(`
+    padding: 0.5rem;
+
+    img {
+      width: 30px;
+      margin-right: 0.5rem;
+    }
+  `)}
 `;
 
 const ItemLogo = styled.div`
   display: inline-flex;
   align-items: center;
-
-  img {
-    margin-right: 1rem;
-  }
 `;
 
 const Counter = styled.span`
@@ -57,4 +69,9 @@ const Counter = styled.span`
   width: 2rem;
   display: inline-block;
   text-align: center;
+
+  ${mobileMediaQuery(`
+    font-size: 1.2rem;
+    width: 1.5rem;
+  `)}
 `;

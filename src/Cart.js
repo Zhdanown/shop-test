@@ -11,6 +11,7 @@ import {
   Justified,
   ListWrapper,
   Price,
+  mobileMediaQuery,
 } from "./components/styled";
 
 function Cart({ goods, setGoods }) {
@@ -133,9 +134,16 @@ const StyledInput = styled.input`
   padding: 0.25rem;
   font-size: 1.2rem;
   margin-right: 1rem;
+
+  ${mobileMediaQuery(`
+    padding: 0;
+    font-size: 1rem;
+  `)}
 `;
 
 const Total = styled(Justified)`
   font-size: 1.4rem;
   font-weight: bold;
+
+  ${mobileMediaQuery(`font-size: 1.2rem;`)}
 `;
