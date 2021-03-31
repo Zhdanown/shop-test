@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
+import { createGlobalStyle } from "styled-components";
 import api from "./api";
 import GoodsList from "./GoodsList";
+import Navbar from "./Navbar";
+
+const GlobalStyles = createGlobalStyle`
+    html, body {
+        margin: 0
+    }
+`;
 
 function App({ dealers }) {
   const [goods, setGoods] = useState([]);
@@ -20,6 +28,8 @@ function App({ dealers }) {
 
   return (
     <>
+      <GlobalStyles />
+      <Navbar />
       <GoodsList goods={goods} />
     </>
   );
