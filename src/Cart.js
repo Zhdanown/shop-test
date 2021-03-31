@@ -102,7 +102,7 @@ function NumberInput({ value, onChange }) {
   const [count, setValue] = useState(value);
 
   useEffect(() => {
-    onChange(count);
+    onChange(Number(count));
   }, [count]);
 
   return (
