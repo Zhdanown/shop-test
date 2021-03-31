@@ -2,7 +2,7 @@ import React from "react";
 import produce from "immer";
 
 import GoodsItem from "./GoodsItem";
-import { ListWrapper, Container } from "./components/styled";
+import { ListWrapper, Container } from "../components/styled";
 
 function GoodsList({ goods, setGoods }) {
   const addItem = itemId => {

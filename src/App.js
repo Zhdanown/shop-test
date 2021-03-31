@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import api from "./api";
-import GoodsList from "./GoodsList";
+import GoodsList from "./Goods/GoodsList";
 import Cart from "./Cart";
 import Navbar from "./Navbar";
 import { nanoid } from "nanoid";
@@ -29,7 +29,7 @@ function App({ dealers }) {
           dealers: dealers.join(","),
         },
       });
-      
+
       const restoredGoods = store.retrieveData();
       setGoods(withIdAndCount(response.data, restoredGoods));
     }
@@ -40,7 +40,7 @@ function App({ dealers }) {
   return (
     <Router>
       <GlobalStyles />
-      <Navbar goods={goods}/>
+      <Navbar goods={goods} />
       <Switch>
         <Route path="/cart">
           <Cart goods={goods} setGoods={setGoods} />

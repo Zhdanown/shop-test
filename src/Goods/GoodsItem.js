@@ -1,7 +1,7 @@
 import React from "react";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 
-import { apiUrl } from "./api";
+import { apiUrl } from "../api";
 import styled from "styled-components";
 import {
   Button,
@@ -9,7 +9,7 @@ import {
   Title,
   Justified,
   mobileMediaQuery,
-} from "./components/styled";
+} from "../components/styled";
 
 function GoodsItem({ item, addItem, removeItem }) {
   return (
