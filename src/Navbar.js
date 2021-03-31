@@ -1,14 +1,13 @@
 import { HomeOutlined, ShoppingCartOutlined } from "@ant-design/icons";
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
+import { Context } from "./App";
 import { Container, Justified, mobileMediaQuery } from "./components/styled";
 import { mainColor } from "./config";
 import { useCartCount } from "./hooks/useCartCount";
 
-function Navbar({ goods }) {
-  const cartCount = useCartCount(goods);
-
+function Navbar() {
   return (
     <StyledNavbar>
       <Container>
@@ -16,7 +15,7 @@ function Navbar({ goods }) {
           <StyledLink to="/">
             <LogoTitle>Интернет магазин</LogoTitle>
           </StyledLink>
-          <LinkToggler cartCount={cartCount} />
+          <LinkToggler />
         </NavbarContent>
       </Container>
     </StyledNavbar>
@@ -25,8 +24,10 @@ function Navbar({ goods }) {
 
 export default Navbar;
 
-function LinkToggler({ cartCount }) {
+function LinkToggler() {
   const isCart = useRouteMatch("/cart");
+  const { goods } = useContext(Context);
+  const cartCount = useCartCount(goods);
 
   return isCart ? (
     <StyledLink to="/">

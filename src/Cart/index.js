@@ -1,8 +1,9 @@
 import { CloseOutlined } from "@ant-design/icons";
 import produce from "immer";
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { Context } from "../App";
 import {
   Button,
   Centered,
@@ -14,14 +15,11 @@ import {
 } from "../components/styled";
 import CartItem from "./CartItem";
 
-function Cart({ goods, setGoods }) {
+function CartContainer() {
+  const { goods, setGoods } = useContext(Context);
+
   const selectedGoods = goods.filter(item => item.count);
 
-  return <SelectedGoods goods={selectedGoods} setGoods={setGoods} />;
-}
-
-export default Cart;
-function SelectedGoods({ goods, setGoods }) {
   const onCountChange = (itemId, count) => {
     setGoods(
       produce(draft => {
@@ -55,7 +53,27 @@ function SelectedGoods({ goods, setGoods }) {
     0
   );
 
-  if (!goods.length)
+  return (
+    <Cart
+      selectedGoods={selectedGoods}
+      clearCart={clearCart}
+      onCountChange={onCountChange}
+      deleteItemFromCart={deleteItemFromCart}
+      totalSum={totalSum}
+    />
+  );
+}
+
+export default CartContainer;
+
+function Cart({
+  selectedGoods,
+  clearCart,
+  onCountChange,
+  deleteItemFromCart,
+  totalSum,
+}) {
+  if (!selectedGoods.length)
     return (
       <Centered direction="column" style={{ padding: "3rem 0" }}>
         <Title>Корзина пуста</Title>
@@ -65,7 +83,7 @@ function SelectedGoods({ goods, setGoods }) {
 
   return (
     <Container style={{ marginTop: "1rem" }}>
-      {goods.length ? (
+      {selectedGoods.length ? (
         <div style={{ textAlign: "right" }}>
           <Button danger onClick={clearCart}>
             Удалить всё <CloseOutlined />
@@ -73,7 +91,7 @@ function SelectedGoods({ goods, setGoods }) {
         </div>
       ) : null}
       <ListWrapper>
-        {goods.map(item => (
+        {selectedGoods.map(item => (
           <CartItem
             key={item.id}
             item={item}

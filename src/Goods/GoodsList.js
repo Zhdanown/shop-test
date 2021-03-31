@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import produce from "immer";
 
 import GoodsItem from "./GoodsItem";
 import { ListWrapper, Container } from "../components/styled";
+import { Context } from "../App";
 
-function GoodsList({ goods, setGoods }) {
+function GoodsList() {
+  const { goods, setGoods } = useContext(Context);
+
   const addItem = itemId => {
     setGoods(
       produce(draft => {

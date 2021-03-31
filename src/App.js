@@ -6,12 +6,15 @@ import GoodsList from "./Goods/GoodsList";
 import Cart from "./Cart";
 import Navbar from "./Navbar";
 import { nanoid } from "nanoid";
+import { createContext } from "react";
 
 const GlobalStyles = createGlobalStyle`
     html, body {
         margin: 0
     }
 `;
+
+export const Context = createContext();
 
 function App({ dealers }) {
   const [goods, setGoods] = useState([]);
@@ -38,18 +41,20 @@ function App({ dealers }) {
   }, []);
 
   return (
-    <Router>
-      <GlobalStyles />
-      <Navbar goods={goods} />
-      <Switch>
-        <Route path="/cart">
-          <Cart goods={goods} setGoods={setGoods} />
-        </Route>
-        <Route exact path="/">
-          <GoodsList goods={goods} setGoods={setGoods} />
-        </Route>
-      </Switch>
-    </Router>
+    <Context.Provider value={{ goods, setGoods }}>
+      <Router>
+        <GlobalStyles />
+        <Navbar />
+        <Switch>
+          <Route path="/cart">
+            <Cart />
+          </Route>
+          <Route exact path="/">
+            <GoodsList />
+          </Route>
+        </Switch>
+      </Router>
+    </Context.Provider>
   );
 }
 
