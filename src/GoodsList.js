@@ -1,25 +1,48 @@
 import React from "react";
 import styled from "styled-components";
+import produce from "immer";
 
-import { apiUrl } from "./api";
+import GoodsItem from "./GoodsItem";
 
-const Item = styled.div`
-  display: flex;
-  justify-content: space-evenly;
+function GoodsList({ goods, setGoods }) {
+  const addItem = itemId => {
+    setGoods(
+      produce(draft => {
+        const index = draft.findIndex(x => x.id === itemId);
+        if (index !== -1) draft[index].count += 1;
+      })
+    );
+  };
 
-  img {
-    width: 50px;
-  }
-`;
+  const removeItem = itemId => {
+    setGoods(
+      produce(draft => {
+        const index = draft.findIndex(x => x.id === itemId);
+        if (index !== -1) {
+          if (draft[index].count > 0) draft[index].count -= 1;
+        }
+      })
+    );
+  };
 
-function GoodsList({ goods }) {
-  return goods.map((item, i) => (
-    <Item key={i}>
-      <h4>{item.name}</h4>
-      <img src={apiUrl + item.image} alt="" />
-      <p>{item.price} $</p>
-    </Item>
-  ));
+  return (
+    <ListWrapper>
+      {goods.map(item => (
+        <GoodsItem
+          key={item.id}
+          item={item}
+          addItem={addItem}
+          removeItem={removeItem}
+        />
+      ))}
+    </ListWrapper>
+  );
 }
 
 export default GoodsList;
+
+const ListWrapper = styled.ul`
+  list-style: none;
+  padding: 1rem;
+  margin: 0;
+`;

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import api from "./api";
 import GoodsList from "./GoodsList";
 import Navbar from "./Navbar";
+import { nanoid } from "nanoid";
 
 const GlobalStyles = createGlobalStyle`
     html, body {
@@ -21,7 +22,8 @@ function App({ dealers }) {
           dealers: dealers.join(","),
         },
       });
-      setGoods(response.data);
+
+      setGoods(withIdAndCount(response.data));
     }
 
     loadGoods();
@@ -36,7 +38,7 @@ function App({ dealers }) {
           <p>Cart</p>
         </Route>
         <Route exact path="/">
-          <GoodsList goods={goods} />
+          <GoodsList goods={goods} setGoods={setGoods}/>
         </Route>
       </Switch>
     </Router>
@@ -44,3 +46,11 @@ function App({ dealers }) {
 }
 
 export default App;
+
+function withIdAndCount(data) {
+  return data.map(item => ({
+    ...item,
+    id: nanoid(),
+    count: 0
+  }));
+}
