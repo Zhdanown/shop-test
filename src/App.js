@@ -40,7 +40,7 @@ function App({ dealers }) {
   return (
     <Router>
       <GlobalStyles />
-      <Navbar />
+      <Navbar goods={goods}/>
       <Switch>
         <Route path="/cart">
           <Cart goods={goods} setGoods={setGoods} />

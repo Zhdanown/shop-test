@@ -1,13 +1,16 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
+import { useCartCount } from "./hooks/useCartCount";
 
-function Navbar() {
+function Navbar({ goods }) {
+  const cartCount = useCartCount(goods);
+
   return (
     <StyledNavbar>
       <NavbarContent>
         <LogoTitle>Интернет магазин</LogoTitle>
-        <LinkToggler />
+        <LinkToggler cartCount={cartCount} />
       </NavbarContent>
     </StyledNavbar>
   );
@@ -15,13 +18,13 @@ function Navbar() {
 
 export default Navbar;
 
-function LinkToggler() {
+function LinkToggler({ cartCount }) {
   const isCart = useRouteMatch("/cart");
 
   return isCart ? (
     <StyledLink to="/">На главную</StyledLink>
   ) : (
-    <StyledLink to="/cart">Товаров в корзине: 0</StyledLink>
+    <StyledLink to="/cart">Товаров в корзине: {cartCount}</StyledLink>
   );
 }
 
