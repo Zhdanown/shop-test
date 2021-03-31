@@ -1,12 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
-
-const App = ({ dealers }) => {
-  useEffect(() => {
-    console.log("from App ", dealers);
-  }, []);
-  return <div>This is an App</div>;
-};
+import App from "./App";
+import "@babel/polyfill";
 
 let app = {
   start: function ({ dealers }) {
