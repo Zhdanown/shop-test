@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createGlobalStyle } from "styled-components";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import api from "./api";
 import GoodsList from "./GoodsList";
 import Navbar from "./Navbar";
@@ -27,11 +28,18 @@ function App({ dealers }) {
   }, []);
 
   return (
-    <>
+    <Router>
       <GlobalStyles />
       <Navbar />
-      <GoodsList goods={goods} />
-    </>
+      <Switch>
+        <Route path="/cart">
+          <p>Cart</p>
+        </Route>
+        <Route exact path="/">
+          <GoodsList goods={goods} />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, useRouteMatch } from "react-router-dom";
 import styled from "styled-components";
 
 function Navbar() {
@@ -6,7 +7,7 @@ function Navbar() {
     <StyledNavbar>
       <NavbarContent>
         <LogoTitle>Интернет магазин</LogoTitle>
-        <CartLink href="/">Товаров в корзине: 0</CartLink>
+        <LinkToggler />
       </NavbarContent>
     </StyledNavbar>
   );
@@ -14,14 +15,24 @@ function Navbar() {
 
 export default Navbar;
 
+function LinkToggler() {
+  const isCart = useRouteMatch("/cart");
+
+  return isCart ? (
+    <StyledLink to="/">На главную</StyledLink>
+  ) : (
+    <StyledLink to="/cart">Товаров в корзине: 0</StyledLink>
+  );
+}
+
 const NavbarContent = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   /*  */
-  width: 768px;
   margin: auto;
+  padding: 0 0.5rem;
 `;
 
 const StyledNavbar = styled.nav`
@@ -35,7 +46,7 @@ const LogoTitle = styled.h1`
   font-size: 1.5rem;
 `;
 
-const CartLink = styled.a`
+const StyledLink = styled(Link)`
   text-decoration: none;
   color: white;
   font-size: 1.2rem;

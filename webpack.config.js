@@ -9,6 +9,7 @@ module.exports = {
   mode: "development",
   devServer: {
     contentBase: "./public",
+    historyApiFallback: true
   },
   module: {
     rules: [
