@@ -34,7 +34,7 @@ function App({ dealers }) {
       });
 
       const restoredGoods = store.retrieveData();
-      setGoods(withIdAndCount(response.data, restoredGoods));
+      setGoods(withIdAndCount(response.data, restoredGoods || []));
     }
 
     loadGoods();
